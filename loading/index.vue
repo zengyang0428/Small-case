@@ -1,38 +1,20 @@
 <template>
-	<div v-if="isShow" class="loading">
-		<div class="loading-content">loading....</div>
+	<div>
+		<button @click="showLoading">切换</button>
 	</div>
 </template>
 
 <script setup lang="ts">
-let isShow = ref<boolean>(false)
-
-const show = () => {
-	isShow.value = true
+import { ComponentInternalInstance } from 'vue'
+const { appContext } = getCurrentInstance() as ComponentInternalInstance
+const showLoading = () => {
+	console.log(appContext);
+	appContext.config.globalProperties.$loading.show()
+	setTimeout(()=>{
+		appContext.config.globalProperties.$loading.hide()
+	},5000)
 }
-const hide = () => {
-	isShow.value = false
-}
-defineExpose({
-	isShow,
-	show,
-	hide
-})
-
 </script>
 
-<style scoped lang="less">
-.loading {
-	position: fixed;
-	inset: 0;
-	background: black;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	&-content {
-		font-size: 30px;
-		color: #fff;
-	}
-}
+<style scoped >
 </style>
